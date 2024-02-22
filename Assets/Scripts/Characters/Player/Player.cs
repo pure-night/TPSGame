@@ -56,6 +56,7 @@ public class Player : MonoBehaviour
         enabled = false;
     }
 
+    // 코루틴이 MonoBehaviour이 필요해서 여기에서 구현.
     public void StartBlendAnimation(int animationHash, float value)
     {
         if(_currentCoroutine != null)
@@ -64,9 +65,10 @@ public class Player : MonoBehaviour
         _currentCoroutine = StartCoroutine(BlendAnimationCoroutine(animationHash, value));
     }
 
+    // 부드러운 애니메이션 전환을 위한 코드
     private IEnumerator BlendAnimationCoroutine(int animationHash, float targetValue)
     {
-        while (Mathf.Abs(Animator.GetFloat(animationHash) - targetValue) >= 0.05f)
+        while (Mathf.Abs(Animator.GetFloat(animationHash) - targetValue) >= 0.005f)
         {
             Animator.SetFloat(animationHash, targetValue, 0.25f, Time.fixedDeltaTime);
             yield return _waitForFixedUpdate;

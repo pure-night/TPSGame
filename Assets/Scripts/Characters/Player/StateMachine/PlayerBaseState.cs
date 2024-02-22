@@ -89,7 +89,7 @@ public class PlayerBaseState : IState
     
     private float GetMovementSpeed()
     {
-        var movementSpeed = stateMachine.MovementSpeed * stateMachine.MovementSpeedModifier;
+        var movementSpeed = stateMachine.MovementBaseSpeed + stateMachine.MovementSpeed * stateMachine.MovementSpeedModifier;
         return movementSpeed;
     }
     
@@ -149,16 +149,8 @@ public class PlayerBaseState : IState
     
     private void CheckIsGround()
     {
-        var transform = stateMachine.Player.transform;
+        var playerTransform = stateMachine.Player.transform;
         
-        var rays = new[]
-        {
-            new Ray(transform.position + (transform.forward * 0.2f) + (Vector3.up * 0.01f), Vector3.down),
-            new Ray(transform.position + (-transform.forward * 0.2f) + (Vector3.up * 0.01f), Vector3.down),
-            new Ray(transform.position + (transform.right * 0.2f) + (Vector3.up * 0.01f), Vector3.down),
-            new Ray(transform.position + (-transform.right * 0.2f) + (Vector3.up * 0.01f), Vector3.down),
-        };
-
-        IsGround = rays.Any(ray => Physics.Raycast(ray, 0.1f, GroundData.GroundLayerMask));
+        IsGround = Physics.CheckSphere(playerTransform.position + new Vector3(0, 0.18f, 0), 0.2f, GroundData.GroundLayerMask);
     }
 }

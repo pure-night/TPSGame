@@ -1,6 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum Scenes
+{
+    Title = 0,
+    Game,
+}
+
 public class SceneLoader : MonoBehaviour
 {
     private void Awake()
@@ -12,6 +18,11 @@ public class SceneLoader : MonoBehaviour
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+
+    public void LoadScene(Scenes scene)
+    {
+        SceneManager.LoadSceneAsync((int)scene);
+    }
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -19,10 +30,12 @@ public class SceneLoader : MonoBehaviour
         {
             // StartScene
             case 0:
+                Managers.UIManager.ShowSceneUI<UI_Title>();
                 Debug.Log("Scene Loaded 0");
                 break;
             // GameScene
             case 1:
+                Managers.GameSceneManager.InitializeGame();
                 Debug.Log("Scene Loaded 1");
                 break;
         }

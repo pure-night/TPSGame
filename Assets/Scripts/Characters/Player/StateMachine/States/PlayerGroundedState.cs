@@ -46,6 +46,11 @@ public class PlayerGroundedState : PlayerBaseState
 
     protected virtual void OnMove()
     {
-        stateMachine.ChangeState(stateMachine.WalkState);
+        if (stateMachine.MovementInput == Vector2.zero) return;
+        
+        if(stateMachine.IsRunning)
+            stateMachine.ChangeState(stateMachine.RunState);
+        else
+            stateMachine.ChangeState(stateMachine.WalkState);
     }
 }
