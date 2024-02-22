@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GenericSingleton<T> : MonoBehaviour where T : MonoBehaviour
@@ -9,8 +10,9 @@ public class GenericSingleton<T> : MonoBehaviour where T : MonoBehaviour
         {
             if (_instance == null)
             {
-                // 모든 오브젝트를 동적할당 하고, GenericSingleton을 사용하는 스크립트는
-                // 오브젝트가 별로 없는 씬 처음에 생성되어 FindObjectOfType을 사용해도 괜찮음.
+                // GenericSingleton을 사용하는 스크립트는 동적할당을 하기 전인 오브젝트가 없는 씬의
+                // 처음에 생성되어 FindObjectOfType을 사용해도 괜찮음.
+                // 처음에 Instance 초기화 해줄 것.
                 _instance = FindObjectOfType<T>();
                 
                 if (_instance == null)
